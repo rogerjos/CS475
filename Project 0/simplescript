@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# exit on error
+set -e
+
+# User enters array size and num tries
+ARGS=2
+
+if [ $# != $ARGS ]
+then
+	echo -e "Invalid syntax. Try $0 <arraySize> <numTries>" 1>&2
+	exit 1
+fi
+
+#compile test code 
+/usr/local/common/gcc-7.3.0/bin/g++ proj00.c -o simple1 -DNUMT=1 -DARRAYSIZE=$1 -DNUMTRIES=$2 -lm -fopenmp
+/usr/local/common/gcc-7.3.0/bin/g++ proj00.c -o simple4 -DNUMT=4 -DARRAYSIZE=$1 -DNUMTRIES=$2 -lm -fopenmp
+
+# Do bg tests
+echo "Running tests..."
+./simple1 &> simpletest1.out &
+./simple4 &> simpletest4.out &
+wait
+echo "All tests completed! Results in simpletest1.out & simpletest4.out."
+
+#clean up
+rm -f simple1 simple4

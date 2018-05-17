@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# exit on error
+set -e
+
+# Add header to output file
+echo "Threads,Avg Mbps,Peak Mbps,Schedule,Grain" > out.csv
+
+# Loop on threads from 1 to 16
+for t in `seq 1 16`;
+do
+
+   # Loop on granularity from 0 (coarse) to 1 (fine)
+   for g in 0 1
+   do
+
+      # Loop on schedule from 1 (static) to 2 (dynamic) -- could also use 3 (guided) and 4 (auto)
+      for s in 1 2
+      do
+
+         # compile, run, put output in file, remove compiled code
+         /usr/local/common/gcc-7.3.0/bin/g++ proj2.c -o proj2 -DITERATIONS=32 -DNUMTHREADS=$t -DGRAIN=$g -DOMP_SCHED=$s -lm -fopenmp
+         ./proj2 &>> out.csv
+         rm -f ./proj2
+
+      done
+
+   done
+
+done

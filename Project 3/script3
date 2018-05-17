@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# exit on error
+set -e
+
+# Loop through both fixes
+for f in 0 1 
+do
+	outfile="out"$f"_"$$".csv"
+
+	echo "Fix_Type,Thread_Count,Pad_Count,MCalc/sec" > $outfile
+
+# Loop on threads
+	for t in 1 2 4
+	do
+		# Loop on padding from 0 (none) to 16 (lots)
+		for p in `seq 0 16` 
+		do
+			# compile, run, put output in file, remove compiled code
+			gcc proj3.c -o proj3 -DFIX=$f -DTHREAD_COUNT=$t -DPAD_COUNT=$p -lm -fopenmp -std=c11
+			./proj3 &>> $outfile
+			rm -f ./proj3
+		  done
+	   done
+	done

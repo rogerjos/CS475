@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# exit on error
+set -e
+
+# Set filenames
+LOGINDEX=0
+LOGFILE="out_"$LOGINDEX".csv"
+PROGINDEX=$$
+PROGFILE="proj5_"$PROGINDEX
+
+# Ensure unique log file name
+while [ -f $LOGFILE ]
+do
+   LOGINDEX=$((LOGINDEX+1))
+   LOGFILE="out_"$LOGINDEX".csv"
+done
+
+# Ensure unique program file name
+while [ -f $PROGFILE ]
+do
+   PROGINDEX=$((LOGINDEX+1))
+   PROGFILE="proj5_"$PROGINDEX
+done
+
+# min is 2^10
+min=1024
+
+# max is 2^25
+max=1
+for ((j=0;j<25;j++))
+do 
+	max=$((max*2))
+done
+
+# Loop on array size. l=0 prints header.
+for ((l=$min;l<=$max;l*=2))
+do
+	# compile, run, put output in file, remove compiled code
+	g++ proj5.cpp simd.p5.cpp -o $PROGFILE -DLEN=$l -DTRIES=256 -lm -fopenmp -std=c++11
+	./$PROGFILE &>> $LOGFILE
+	rm -f $PROGFILE
+done

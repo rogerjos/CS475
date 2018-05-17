@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+FILE="proj"+$$
+
+# Do basic simulation
+gcc proj4.c -o $FILE -lm -fopenmp -w -std=c11
+./$FILE > simul_basic.csv
+
+# Do greenhouse simulation
+gcc proj4.c -o $FILE -DTHREADCOUNT=4 -lm -fopenmp -w -std=c11
+./$FILE > simul_greenhouse.csv
+
+rm -f $FILE

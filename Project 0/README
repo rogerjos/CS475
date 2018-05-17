@@ -1,0 +1,12 @@
+Project code is in proj00.c
+
+Test script is in bash script simplescript
+
+Results in report are in simpletest1.out and simpletest4.out
+
+To generate new results place project code and test script into a directory and enter:
+simplescipt <arraySize> <numberTries>
+
+Results will be in simpletest1.out and simpletest4.out, as 1 and 4 thread executions are hardcoded.
+
+A very basic Fp calculator for 4 to 1 speedup is in fp.c and may be compiled with g++ and run using the speedup value as an argument to get the Fp. Not particularly sophisticated, but it was more fun than dumping the equation into a calculator.

@@ -1,0 +1,6 @@
+Execute the bash script "runme"
+
+Results for the basic simulation will be in simul_basic.csv
+Results for the simulation with student agent will be in simul_greenhouse.csv
+
+The .csv files may be dropped into the Results sheet of Proj4_Results.xslx to generate a table and graph.
